@@ -8,3 +8,15 @@
 .save-status{min-height:1.5em;margin:14px 0 0;color:#137333;font-weight:700}
 @media(max-width:900px){.pricing-admin-form{grid-template-columns:1fr 1fr}.pricing-admin-form .btn{grid-column:1/-1}}
 @media(max-width:560px){.pricing-admin-form{grid-template-columns:1fr}.pricing-admin-card{padding:20px}}
+
+/* Luxury Royal admin theme — visual overrides only */
+.admin-body{background:linear-gradient(180deg,#f4f6f9,#eceff4)}
+.admin-header{background:rgba(255,255,255,.95);border-bottom:2px solid rgba(200,164,77,.45);box-shadow:0 8px 28px rgba(6,27,59,.07)}
+.admin-intro>span,.mini-label{color:var(--gold)}
+.admin-intro h1,.admin-form h2,.admin-list-head h2,.admin-item h3{color:var(--royal-deep)}
+.notice{background:#fffaf0;border-color:rgba(200,164,77,.62);color:#51452b}
+.admin-form,.admin-list,.pricing-admin-card{border-color:rgba(200,164,77,.34);border-top:3px solid var(--gold);box-shadow:0 20px 52px rgba(6,27,59,.09)}
+.admin-form input,.admin-form textarea,.pricing-admin-form input{border-color:#d6dbe3}
+.admin-form input:focus,.admin-form textarea:focus,.pricing-admin-form input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,77,.16)}
+.text-btn{color:var(--royal)}
+.admin-item img{background:#edf0f5;border:1px solid rgba(200,164,77,.30)}
