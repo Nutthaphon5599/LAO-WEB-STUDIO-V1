@@ -2,3 +2,29 @@ const T={lo:{nav:['ໜ້າຫຼັກ','ບໍລິການ','ຜົນງ�
 const ids=['home','services','portfolio','pricing','contact'];
 function setLang(l){document.documentElement.lang=l;document.getElementById('nav').innerHTML=T[l].nav.map((x,i)=>`<a href="#${ids[i]}">${x}</a>`).join('');document.querySelectorAll('[data-i]').forEach(el=>el.textContent=T[l][el.dataset.i]||el.dataset.i);localStorage.setItem('lws-lang',l)}
 const sel=document.getElementById('lang');sel.value=localStorage.getItem('lws-lang')||'lo';setLang(sel.value);sel.addEventListener('change',e=>setLang(e.target.value));
+
+function safeText(value){return String(value ?? '').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
+function projectText(value, lang){
+  if (value && typeof value === 'object') return value[lang] || value.lo || value.th || value.en || '';
+  return value || '';
+}
+function renderPortfolio(lang){
+  const grid=document.getElementById('portfolio-grid');
+  const empty=document.getElementById('portfolio-empty');
+  if(!grid) return;
+  const projects=getProjects();
+  if(!projects.length){
+    grid.innerHTML='';
+    empty.hidden=false;
+    empty.textContent=lang==='lo'?'ຍັງບໍ່ມີຜົນງານ':lang==='th'?'ยังไม่มีผลงาน':'No projects yet';
+    return;
+  }
+  empty.hidden=true;
+  grid.innerHTML=projects.map((p,index)=>`<a class="project-card" href="${safeText(p.url || '#')}" target="_blank" rel="noopener">
+    <img src="${safeText(p.image || 'assets/portfolio.jpg')}" alt="${safeText(projectText(p.name,lang))}" loading="${index?'lazy':'eager'}">
+    <div class="project-overlay"><div><small>${safeText(projectText(p.category,lang))}</small><h3>${safeText(projectText(p.name,lang))}</h3><p>${safeText(projectText(p.description,lang))}</p></div><span class="round-arrow">↗</span></div>
+  </a>`).join('');
+}
+const originalSetLang=setLang;
+setLang=function(l){originalSetLang(l);renderPortfolio(l)};
+setLang(sel.value);
