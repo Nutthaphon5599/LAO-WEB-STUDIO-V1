@@ -1,0 +1,3 @@
+// ใส่ค่าจาก Supabase: Project Settings > API
+window.LWS_SUPABASE_URL = 'PASTE_YOUR_SUPABASE_URL_HERE';
+window.LWS_SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE';

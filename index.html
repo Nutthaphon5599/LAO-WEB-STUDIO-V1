@@ -56,9 +56,9 @@
 <section id="pricing" class="pricing">
   <div class="section-head"><span data-i="pricingLabel"></span><h2 data-i="pricingTitle"></h2><p data-i="pricingText"></p></div>
   <div class="price-grid">
-    <article><h3 data-i="p1"></h3><div class="price">200.000<span>ກີບ</span></div><ul><li data-i="p1a"></li><li data-i="p1b"></li><li data-i="p1c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
-    <article><h3 data-i="p2"></h3><div class="price">500.000<span>ກີບ</span></div><ul><li data-i="p2a"></li><li data-i="p2b"></li><li data-i="p2c"></li></ul><a href="#contact" class="btn btn-primary" data-i="choose"></a></article>
-    <article><h3 data-i="p3"></h3><div class="price">800.000<span>ກີບ</span></div><ul><li data-i="p3a"></li><li data-i="p3b"></li><li data-i="p3c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
+    <article><h3 data-i="p1"></h3><div class="price"><span data-price="starter">200.000</span><span data-currency="starter">ກີບ</span></div><ul><li data-i="p1a"></li><li data-i="p1b"></li><li data-i="p1c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
+    <article><h3 data-i="p2"></h3><div class="price"><span data-price="business">500.000</span><span data-currency="business">ກີບ</span></div><ul><li data-i="p2a"></li><li data-i="p2b"></li><li data-i="p2c"></li></ul><a href="#contact" class="btn btn-primary" data-i="choose"></a></article>
+    <article><h3 data-i="p3"></h3><div class="price"><span data-price="premium">800.000</span><span data-currency="premium">ກີບ</span></div><ul><li data-i="p3a"></li><li data-i="p3b"></li><li data-i="p3c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
   </div>
 </section>
 <section id="contact" class="contact">
@@ -81,8 +81,13 @@
   </form>
 </section>
 </main>
-<footer><div class="brand foot-brand"><img src="assets/logo.png" alt=""><span>LAO WEB STUDIO</span></div><p>© 2026 Lao Web Studio. All rights reserved.</p><a class="admin-link" href="admin.html">Portfolio Admin</a></footer>
+<footer><div class="brand foot-brand"><img src="assets/logo.png" alt=""><span>LAO WEB STUDIO</span></div><p>© 2026 Lao Web Studio. All rights reserved.</p><a class="admin-link" href="admin.html">Website Admin</a></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="supabase-client.js"></script>
 <script src="projects.js"></script>
+<script src="pricing.js"></script>
 <script src="script.js"></script>
+<script>renderPricing().catch(console.error);</script>
 </body>
 </html>

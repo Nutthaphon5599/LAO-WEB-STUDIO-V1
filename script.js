@@ -8,11 +8,11 @@ function projectText(value, lang){
   if (value && typeof value === 'object') return value[lang] || value.lo || value.th || value.en || '';
   return value || '';
 }
-function renderPortfolio(lang){
+async function renderPortfolio(lang){
   const grid=document.getElementById('portfolio-grid');
   const empty=document.getElementById('portfolio-empty');
   if(!grid) return;
-  const projects=getProjects();
+  const projects=await getProjects();
   if(!projects.length){
     grid.innerHTML='';
     empty.hidden=false;
@@ -26,5 +26,5 @@ function renderPortfolio(lang){
   </a>`).join('');
 }
 const originalSetLang=setLang;
-setLang=function(l){originalSetLang(l);renderPortfolio(l)};
+setLang=function(l){originalSetLang(l);renderPortfolio(l).catch(console.error)};
 setLang(sel.value);

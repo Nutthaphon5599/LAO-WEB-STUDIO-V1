@@ -1,34 +1,22 @@
-const form=document.getElementById('project-form');
-const list=document.getElementById('project-list');
-const count=document.getElementById('count');
-const cancel=document.getElementById('cancel-edit');
-let currentImage='';
-const $=id=>document.getElementById(id);
-
-function render(){
-  const projects=getProjects(); count.textContent=`(${projects.length}/6)`;
-  list.innerHTML=projects.length?projects.map(p=>`<article class="admin-item"><img src="${p.image}" alt=""><div><h3>${p.name.lo || p.name.th || p.name.en}</h3><p>${p.url}</p><div class="item-actions"><button class="text-btn" data-edit="${p.id}">ແກ້ໄຂ</button><button class="text-btn danger" data-delete="${p.id}">ລຶບ</button></div></div></article>`).join(''):'<div class="empty-admin">ຍັງບໍ່ມີຜົນງານ</div>';
-  form.querySelector('button[type="submit"]').disabled=projects.length>=6 && !$('edit-id').value;
+const $=id=>document.getElementById(id);const form=$('project-form'),list=$('project-list'),count=$('count'),cancel=$('cancel-edit');let currentImage='';
+const show=(msg,type='ok')=>{const el=$('global-status');el.textContent=msg;el.dataset.type=type;};
+async function requireLogin(){
+  if(!window.lwsSupabase){$('admin-app').hidden=true;$('login-card').hidden=false;show('กรุณาใส่ Supabase URL และ anon key ใน supabase-config.js','error');return false;}
+  const {data}=await window.lwsSupabase.auth.getSession();const logged=Boolean(data.session);$('login-card').hidden=logged;$('admin-app').hidden=!logged;return logged;
 }
+$('login-form').addEventListener('submit',async e=>{e.preventDefault();show('กำลังเข้าสู่ระบบ…');const {error}=await window.lwsSupabase.auth.signInWithPassword({email:$('login-email').value,password:$('login-password').value});if(error)return show(error.message,'error');await requireLogin();await boot();show('เข้าสู่ระบบแล้ว');});
+$('logout').addEventListener('click',async()=>{await window.lwsSupabase.auth.signOut();location.reload();});
+async function uploadImage(file){
+  if(!file)return currentImage||'assets/portfolio.jpg';const ext=(file.name.split('.').pop()||'jpg').toLowerCase();const path=`projects/${Date.now()}-${crypto.randomUUID()}.${ext}`;
+  const {error}=await window.lwsSupabase.storage.from('portfolio').upload(path,file,{upsert:false,cacheControl:'3600'});if(error)throw error;
+  return window.lwsSupabase.storage.from('portfolio').getPublicUrl(path).data.publicUrl;
+}
+async function render(){const projects=await getProjects();count.textContent=`(${projects.length}/6)`;list.innerHTML=projects.length?projects.map(p=>`<article class="admin-item"><img src="${p.image}" alt=""><div><h3>${p.name.lo||p.name.th||p.name.en}</h3><p>${p.url}</p><div class="item-actions"><button class="text-btn" data-edit="${p.id}">ແກ້ໄຂ</button><button class="text-btn danger" data-delete="${p.id}">ລຶບ</button></div></div></article>`).join(''):'<div class="empty-admin">ຍັງບໍ່ມີຜົນງານ</div>';form.querySelector('button[type="submit"]').disabled=projects.length>=6&&!$('edit-id').value;return projects;}
 function resetForm(){form.reset();$('edit-id').value='';currentImage='';$('form-title').textContent='ເພີ່ມຜົນງານ';cancel.hidden=true;render();}
-function fileToDataUrl(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file)});}
-async function compressImage(file){
-  const data=await fileToDataUrl(file); const img=new Image(); img.src=data; await img.decode();
-  const max=1600, scale=Math.min(1,max/img.width); const canvas=document.createElement('canvas'); canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);
-  canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height); return canvas.toDataURL('image/jpeg',.82);
-}
-form.addEventListener('submit',async e=>{
-  e.preventDefault(); const projects=getProjects(); const editId=$('edit-id').value;
-  if(!editId && projects.length>=6){alert('ເພີ່ມໄດ້ສູງສຸດ 6 ຜົນງານ');return;}
-  const file=$('project-image').files[0]; let image=currentImage || 'assets/portfolio.jpg'; if(file) image=await compressImage(file);
-  const project={id:editId || `project-${Date.now()}`,category:{lo:$('category-lo').value,th:$('category-th').value,en:$('category-en').value},name:{lo:$('name-lo').value,th:$('name-th').value,en:$('name-en').value},description:{lo:$('desc-lo').value,th:$('desc-th').value,en:$('desc-en').value},url:$('project-url').value,image};
-  const next=editId?projects.map(p=>p.id===editId?project:p):[...projects,project]; saveProjects(next); resetForm();
-});
-list.addEventListener('click',e=>{
-  const edit=e.target.dataset.edit, del=e.target.dataset.delete; const projects=getProjects();
-  if(del){if(confirm('ຕ້ອງການລຶບຜົນງານນີ້ບໍ?')){saveProjects(projects.filter(p=>p.id!==del));resetForm();}return;}
-  if(edit){const p=projects.find(x=>x.id===edit);if(!p)return;$('edit-id').value=p.id;currentImage=p.image;$('category-lo').value=p.category.lo||'';$('category-th').value=p.category.th||'';$('category-en').value=p.category.en||'';$('name-lo').value=p.name.lo||'';$('name-th').value=p.name.th||'';$('name-en').value=p.name.en||'';$('desc-lo').value=p.description.lo||'';$('desc-th').value=p.description.th||'';$('desc-en').value=p.description.en||'';$('project-url').value=p.url||'';$('form-title').textContent='ແກ້ໄຂຜົນງານ';cancel.hidden=false;window.scrollTo({top:0,behavior:'smooth'});render();}
-});
+form.addEventListener('submit',async e=>{e.preventDefault();try{const projects=await getProjects(),editId=$('edit-id').value;if(!editId&&projects.length>=6)throw new Error('เพิ่มได้สูงสุด 6 ผลงาน');show('กำลังบันทึก…');const image=await uploadImage($('project-image').files[0]);await saveProject({id:editId||crypto.randomUUID(),category:{lo:$('category-lo').value,th:$('category-th').value,en:$('category-en').value},name:{lo:$('name-lo').value,th:$('name-th').value,en:$('name-en').value},description:{lo:$('desc-lo').value,th:$('desc-th').value,en:$('desc-en').value},url:$('project-url').value,image,sort_order:editId?(projects.find(p=>p.id===editId)?.sort_order||0):projects.length});resetForm();show('บันทึกผลงานแล้ว');}catch(err){show(err.message,'error');}});
+list.addEventListener('click',async e=>{const edit=e.target.dataset.edit,del=e.target.dataset.delete,projects=await getProjects();if(del){if(confirm('ต้องการลบผลงานนี้หรือไม่?')){try{await deleteProject(del);await render();show('ลบผลงานแล้ว');}catch(err){show(err.message,'error');}}return;}if(edit){const p=projects.find(x=>x.id===edit);if(!p)return;$('edit-id').value=p.id;currentImage=p.image;for(const k of ['lo','th','en']){$(`category-${k}`).value=p.category[k]||'';$(`name-${k}`).value=p.name[k]||'';$(`desc-${k}`).value=p.description[k]||'';}$('project-url').value=p.url||'';$('form-title').textContent='ແກ້ໄຂຜົນງານ';cancel.hidden=false;scrollTo({top:0,behavior:'smooth'});render();}});
 cancel.addEventListener('click',resetForm);
-$('reset-all').addEventListener('click',()=>{if(confirm('ກັບຄືນຜົນງານເລີ່ມຕົ້ນບໍ?')){localStorage.removeItem('lws-projects');resetForm();}});
-render();
+$('pricing-form').addEventListener('submit',async e=>{e.preventDefault();try{const currency=$('price-currency').value.trim()||'ກີບ';await savePricing({starter:{price:$('price-starter').value.trim(),currency},business:{price:$('price-business').value.trim(),currency},premium:{price:$('price-premium').value.trim(),currency}});show('บันทึกราคาแล้ว');}catch(err){show(err.message,'error');}});
+async function loadPricingForm(){const d=await getPricing();$('price-starter').value=d.starter.price;$('price-business').value=d.business.price;$('price-premium').value=d.premium.price;$('price-currency').value=d.starter.currency||'ກີບ';}
+async function boot(){await Promise.all([render(),loadPricingForm()]);}
+(async()=>{if(await requireLogin())await boot();})();

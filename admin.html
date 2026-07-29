@@ -2,15 +2,27 @@
 <html lang="lo">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Portfolio Admin — Lao Web Studio</title>
+  <title>Website Admin — Lao Web Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="admin.css">
 </head>
 <body class="admin-body">
 <header class="admin-header"><a class="brand" href="index.html"><img src="assets/logo.png" alt=""><span>LAO WEB STUDIO</span></a><a class="btn btn-secondary" href="index.html#portfolio">ເບິ່ງໜ້າເວັບ</a></header>
-<main class="admin-main">
-<section class="admin-intro"><span>PORTFOLIO ADMIN</span><h1>ຈັດການຜົນງານ</h1><p>ເພີ່ມໄດ້ສູງສຸດ 6 ຜົນງານ (ຜົນງານເກົ່າ 1 + ໃໝ່ 5), ແກ້ໄຂ ຫຼື ລຶບໄດ້.</p><div class="notice"><b>ໝາຍເຫດ:</b> ຂໍ້ມູນສະບັບນີ້ບັນທຶກໃນ Browser ຂອງເຄື່ອງນີ້. ສຳລັບການອັບເດດໃຫ້ທຸກຄົນເຫັນຈາກທຸກເຄື່ອງ ຈະຕ້ອງເຊື່ອມຖານຂໍ້ມູນ Supabase.</div></section>
+<main class="admin-main"><p id="global-status" class="save-status" aria-live="polite"></p><section id="login-card" class="pricing-admin-card" hidden><h2>Admin Login</h2><form id="login-form" class="pricing-admin-form"><label>Email<input id="login-email" type="email" required></label><label>Password<input id="login-password" type="password" required></label><button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button></form></section><div id="admin-app" hidden>
+<section class="admin-intro"><span>WEBSITE ADMIN</span><h1>ຈັດການລາຄາ ແລະ ຜົນງານ</h1><p>ປ່ຽນລາຄາແພັກເກດໄດ້ທຸກເວລາ ແລະ ເພີ່ມໄດ້ສູງສຸດ 6 ຜົນງານ.</p><div class="notice"><b>ໝາຍເຫດ:</b> ຂໍ້ມູນຈະບັນທຶກໃນ Supabase ແລະ ອັບເດດໃຫ້ຜູ້ເຂົ້າຊົມທຸກຄົນເຫັນ.</div></section>
+
+<section class="pricing-admin-card">
+  <div class="admin-list-head"><div><span class="mini-label">PRICING</span><h2>ຈັດການລາຄາແພັກເກດ</h2></div></div>
+  <form id="pricing-form" class="pricing-admin-form">
+    <label>Starter<input id="price-starter" inputmode="numeric" placeholder="200.000" required></label>
+    <label>Business<input id="price-business" inputmode="numeric" placeholder="500.000" required></label>
+    <label>Premium<input id="price-premium" inputmode="numeric" placeholder="800.000" required></label>
+    <label>ສະກຸນເງິນ<input id="price-currency" value="ກີບ" required></label>
+    <button class="btn btn-primary" type="submit">ບັນທຶກລາຄາ</button>
+  </form>
+  <p class="save-status" id="pricing-status" aria-live="polite"></p>
+</section>
 <section class="admin-layout">
 <form id="project-form" class="admin-form">
   <input type="hidden" id="edit-id">
@@ -22,8 +34,8 @@
   <label>ຮູບໜ້າປົກ<input id="project-image" type="file" accept="image/*"><small>ແນະນຳຮູບແນວນອນ 1600 × 900 px. ຖ້າແກ້ໄຂ ແລະ ບໍ່ເລືອກຮູບໃໝ່ ຈະໃຊ້ຮູບເກົ່າ.</small></label>
   <div class="form-actions"><button class="btn btn-primary" type="submit">ບັນທຶກຜົນງານ</button><button class="btn btn-secondary" type="button" id="cancel-edit" hidden>ຍົກເລີກ</button></div>
 </form>
-<div><div class="admin-list-head"><h2>ຜົນງານປັດຈຸບັນ <span id="count"></span></h2><button class="text-btn danger" id="reset-all" type="button">ກັບຄືນຄ່າເລີ່ມຕົ້ນ</button></div><div id="project-list" class="admin-list"></div></div>
+<div><div class="admin-list-head"><h2>ຜົນງານປັດຈຸບັນ <span id="count"></span></h2></div><div id="project-list" class="admin-list"></div></div>
 </section>
-</main>
-<script src="projects.js"></script><script src="admin.js"></script>
+<button id="logout" class="text-btn danger" type="button">ออกจากระบบ</button></div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script><script src="projects.js"></script><script src="pricing.js"></script><script src="admin.js"></script>
 </body></html>
