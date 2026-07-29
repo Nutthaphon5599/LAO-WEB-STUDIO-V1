@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="lo">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Lao Web Studio - professional website design and development in Laos." />
+  <title>Lao Web Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#home"><img src="assets/logo.png" alt="Lao Web Studio logo"><span>LAO WEB STUDIO</span></a>
+  <nav id="nav"></nav>
+  <div class="header-actions">
+    <select id="lang" aria-label="Language"><option value="lo">ລາວ</option><option value="th">ไทย</option><option value="en">EN</option></select>
+    <a class="btn btn-primary small" href="#contact" data-i="quote"></a>
+  </div>
+</header>
+<main>
+<section id="home" class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow" data-i="eyebrow"></div>
+    <h1><span>LAO WEB</span><strong>STUDIO</strong></h1>
+    <p class="lead" data-i="heroText"></p>
+    <ul class="checks">
+      <li data-i="check1"></li><li data-i="check2"></li><li data-i="check3"></li>
+    </ul>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="#contact" data-i="quote"></a>
+      <a class="btn btn-secondary" href="#portfolio" data-i="viewWork"></a>
+    </div>
+    <div class="stats"><div><b>3</b><span data-i="languages"></span></div><div><b>100%</b><span>Responsive</span></div><div><b>SEO</b><span>Ready</span></div></div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb"></div>
+    <img src="assets/logo.png" alt="Lao Web Studio">
+  </div>
+</section>
+<section class="services" id="services">
+  <div class="section-head"><span data-i="servicesLabel"></span><h2 data-i="servicesTitle"></h2><p data-i="servicesText"></p></div>
+  <div class="service-grid">
+    <article><div class="icon">✦</div><h3 data-i="s1t"></h3><p data-i="s1d"></p></article>
+    <article><div class="icon">⌘</div><h3 data-i="s2t"></h3><p data-i="s2d"></p></article>
+    <article><div class="icon">▱</div><h3 data-i="s3t"></h3><p data-i="s3d"></p></article>
+    <article><div class="icon">↗</div><h3 data-i="s4t"></h3><p data-i="s4d"></p></article>
+  </div>
+</section>
+<section id="portfolio" class="portfolio">
+  <div class="section-head"><span data-i="portfolioLabel"></span><h2 data-i="portfolioTitle"></h2></div>
+  <a class="project-card" href="https://nutthaphon5599.github.io/tum-pa-guay-restaurant-6.2/" target="_blank" rel="noopener">
+    <img src="assets/portfolio.jpg" alt="Tum Pa Guay Restaurant website project">
+    <div class="project-overlay"><div><small>Restaurant Website</small><h3 data-i="projectName"></h3><p data-i="projectDesc"></p></div><span class="round-arrow">↗</span></div>
+  </a>
+</section>
+<section id="pricing" class="pricing">
+  <div class="section-head"><span data-i="pricingLabel"></span><h2 data-i="pricingTitle"></h2><p data-i="pricingText"></p></div>
+  <div class="price-grid">
+    <article><h3 data-i="p1"></h3><div class="price">200.000<span>ກີບ</span></div><ul><li data-i="p1a"></li><li data-i="p1b"></li><li data-i="p1c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
+    <article><h3 data-i="p2"></h3><div class="price">500.000<span>ກີບ</span></div><ul><li data-i="p2a"></li><li data-i="p2b"></li><li data-i="p2c"></li></ul><a href="#contact" class="btn btn-primary" data-i="choose"></a></article>
+    <article><h3 data-i="p3"></h3><div class="price">800.000<span>ກີບ</span></div><ul><li data-i="p3a"></li><li data-i="p3b"></li><li data-i="p3c"></li></ul><a href="#contact" class="btn btn-secondary" data-i="choose"></a></article>
+  </div>
+</section>
+<section id="contact" class="contact">
+  <div class="contact-info"><span class="section-kicker" data-i="contactLabel"></span><h2 data-i="contactTitle"></h2><p data-i="contactText"></p>
+    <div class="contact-list">
+      <a href="tel:02052811825"><b>Phone</b><span>02052811825</span></a>
+      <a href="https://wa.me/8562052811825" target="_blank"><b>WhatsApp</b><span>02052811825</span></a>
+      <a href="mailto:info@laowebstudio.com"><b>Email</b><span>info@laowebstudio.com</span></a>
+      <a href="https://www.facebook.com/" target="_blank"><b>Facebook</b><span>Lao Web Studio</span></a>
+      <a href="https://maps.app.goo.gl/dkVz8CGwvTdxGqkg8?g_st=iw" target="_blank"><b>Google Maps</b><span>ບ້ານ ຕານມີໄຊ, ເມືອງ ໄຊທານີ</span></a>
+    </div>
+  </div>
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form">
+    <input type="hidden" name="form-name" value="contact"><p class="hidden"><label>Don’t fill this out: <input name="bot-field"></label></p>
+    <label><span data-i="name"></span><input name="name" required></label>
+    <label><span data-i="phone"></span><input name="phone" required></label>
+    <label><span>Email</span><input type="email" name="email"></label>
+    <label><span data-i="message"></span><textarea name="message" rows="5" required></textarea></label>
+    <button class="btn btn-primary" type="submit" data-i="send"></button>
+  </form>
+</section>
+</main>
+<footer><div class="brand foot-brand"><img src="assets/logo.png" alt=""><span>LAO WEB STUDIO</span></div><p>© 2026 Lao Web Studio. All rights reserved.</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
